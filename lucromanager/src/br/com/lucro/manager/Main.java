@@ -1,15 +1,18 @@
 package br.com.lucro.manager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import br.com.lucro.manager.model.Acquirer;
+import br.com.lucro.manager.dao.FileHeaderDAO;
+import br.com.lucro.manager.util.CdiContext;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
-				
+		CdiContext context = CdiContext.INSTANCE;
+		
+		FileHeaderDAO dao = context.getBean(FileHeaderDAO.class);
+		
+		System.out.println("Hi!");
+		
+		/*
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lucromanager");
 		EntityManager em = emf.createEntityManager();
 		
@@ -24,6 +27,7 @@ public class Main {
 
 		em.close();
 		emf.close();
+		*/
 	}
 
 }

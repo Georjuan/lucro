@@ -11,17 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Dao implements Serializable {
+public class DAOManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;	
 
 	private static EntityManager entityManager = null;
+	private static EntityManagerFactory entityManagerFactory = null; 
 	
-	private static final Logger logger = LoggerFactory.getLogger(Dao.class);
+	private static final Logger logger = LoggerFactory.getLogger(DAOManager.class);
 	
 	private static void createManager(){		
 		try{
-			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("lucromanager");		
+			entityManagerFactory = Persistence.createEntityManagerFactory("lucromanager");		
 			entityManager = entityManagerFactory.createEntityManager();
 		}catch(Exception e){			
 			entityManager = null;
@@ -34,4 +35,20 @@ public class Dao implements Serializable {
 		return entityManager;
 	}
 	
+	public void beginTransaction(){
+		getEntityManager().getTransaction().begin();
+	}
+	
+	public void commitTransaction(){
+		getEntityManager().getTransaction().commit();
+	}
+	
+	public void rollbackTransaction(){
+		getEntityManager().getTransaction().rollback();
+	}
+	
+	public void close(){
+		getEntityManager().close();
+		entityManagerFactory.close();
+	}
 }

@@ -1,4 +1,4 @@
-package br.com.lucro.manager.model.tivit.cielo;
+package br.com.lucro.manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -11,12 +11,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name="file_tivit_cielo_header")
-@NamedQuery(name="FileHeader.findAll", query="SELECT f FROM FileHeader f")
-public class FileHeader implements Serializable {
+@NamedQuery(name="FileHeaderCielo.findAll", query="SELECT f FROM FileHeaderCielo f")
+public class FileHeaderCielo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="FILE_TIVIT_CIELO_HEADER_ID_GENERATOR", sequenceName="FILE_TIVIT_CIELO_HEADER_ID_SEQ")
+	@SequenceGenerator(name="FILE_TIVIT_CIELO_HEADER_ID_GENERATOR", sequenceName="FILE_TIVIT_CIELO_HEADER_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FILE_TIVIT_CIELO_HEADER_ID_GENERATOR")
 	private Long id;
 
@@ -46,8 +46,20 @@ public class FileHeader implements Serializable {
 
 	@Column(name="van")
 	private String van;
+	
+	@Column(name="mailbox")
+	private String mailbox;
 
-	public FileHeader() {
+	
+	public FileHeaderCielo() {}
+	
+	
+	public String getMailbox() {
+		return mailbox;
+	}
+
+	public void setMailbox(String mailbox) {
+		this.mailbox = mailbox;
 	}
 
 	public Long getId() {

@@ -3,25 +3,25 @@ package br.com.lucro.manager.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the file_tivit_cielo_operation_resume database table.
  * 
+ * TIPO 1 - DETALHE DO RESUMO DE OPERAÇÕES (RO)
+ * Grupo de vendas, ajustes ou cobrança de serviços. Permite identificar a origem dos lançamentos e as ações
+ * de manutenção possíveis. Disponibilizado para todos os extratos.
  */
 @Entity
 @Table(name="file_tivit_cielo_operation_resume")
@@ -30,7 +30,7 @@ public class FileOperationResumeCielo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="FILE_TIVIT_CIELO_OPERATION_RESUME_ID_GENERATOR", sequenceName="FILE_TIVIT_CIELO_OPERATION_RESUME_ID_SEQ")
+	@SequenceGenerator(name="FILE_TIVIT_CIELO_OPERATION_RESUME_ID_GENERATOR", sequenceName="FILE_TIVIT_CIELO_OPERATION_RESUME_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FILE_TIVIT_CIELO_OPERATION_RESUME_ID_GENERATOR")
 	private Long id;
 
@@ -85,10 +85,8 @@ public class FileOperationResumeCielo implements Serializable {
 	@Column(name="gross_value")
 	private Double grossValue;
 
-	//@Column(name="header_id")
-	//private Long headerId;
+	@ManyToOne
 	@JoinColumn(name="header_id", nullable=false, insertable=true)
-	@OneToOne(cascade=CascadeType.ALL, optional=false, fetch=FetchType.EAGER)
 	private FileHeaderCielo header;
 
 	@Column(name="net_value")

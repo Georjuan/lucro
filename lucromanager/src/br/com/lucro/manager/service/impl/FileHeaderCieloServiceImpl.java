@@ -42,10 +42,14 @@ public class FileHeaderCieloServiceImpl implements FileHeaderCieloService {
 		header.setFileNumber(matcher.group(6));		
 		header.setTypeExtractOptionId(Integer.parseInt(matcher.group(8)));
 		header.setVan(matcher.group(9));
-		header.setMailbox(matcher.group(10));
+		header.setMailbox(matcher.group(10).trim().isEmpty() ? null : matcher.group(10));
 		header.setLayoutVersion(matcher.group(11));
 		
-		if(!dao.exists(header)) dao.create(header);
+		if(!dao.exists(header)){
+			dao.create(header);
+		}else{
+			header = dao.select(header);
+		}
 		
 		return header;
 	}

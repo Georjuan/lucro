@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * The persistent class for the file_tivit_cielo_header database table.
  * 
+ * TIPO 0 - Identifica o cabeçalho de cada arquivo por cadeia de extrato eletrônico. 
  */
 @Entity
 @Table(name="file_tivit_cielo_header")

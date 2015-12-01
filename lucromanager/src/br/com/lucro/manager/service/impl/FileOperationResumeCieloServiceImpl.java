@@ -38,7 +38,7 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 		
 		operationResume.setEstablishmentNumber(matcher.group(2));
-		operationResume.setFinancialOperationNumber(matcher.group(3));
+		operationResume.setOperationResumeLotNumber(matcher.group(3));
 		operationResume.setParcel(matcher.group(4).trim().isEmpty() ? null : Integer.parseInt(matcher.group(4)));
 		operationResume.setFiller(matcher.group(5).trim().isEmpty() ? null : matcher.group(5));
 		operationResume.setPlan(matcher.group(6).trim().isEmpty() ? null : matcher.group(6));
@@ -61,10 +61,10 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		operationResume.setAdjustmentSourceId(matcher.group(28).trim().isEmpty() ? null : Integer.parseInt(matcher.group(28)));
 		operationResume.setComplementaryValue(Double.valueOf(matcher.group(29)) / (double)100);
 		operationResume.setFinancialProductIdentifier(matcher.group(30).trim().isEmpty() ? null : matcher.group(30));
-		operationResume.setFinancialOperationNumber(matcher.group(31));
+		operationResume.setFinancialOperationNumber(matcher.group(31)); //
 		operationResume.setAnticipatedGrossValue((Double.valueOf(matcher.group(33)) / (double)100) * (matcher.group(32).equals("-")?-1:1));
 		operationResume.setCardFlagId(Integer.parseInt(matcher.group(34)));
-		operationResume.setOperationResumeNumber(matcher.group(35));
+		operationResume.setOperationResumeNumber(matcher.group(35)); //
 		operationResume.setFeePercent(Double.valueOf(matcher.group(36)) / (double)100);
 		operationResume.setTransactionFeeValue(Double.valueOf(matcher.group(37)) / (double)100);
 		operationResume.setWarrantyFeeValue(Double.valueOf(matcher.group(38)) / (double)100);
@@ -73,7 +73,11 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		operationResume.setProductId(Integer.parseInt(matcher.group(41)));
 		operationResume.setHeader(fileHeaderCielo);
 				
-		if(!dao.exists(operationResume)) dao.create(operationResume);
+		if(!dao.exists(operationResume)){
+			dao.create(operationResume);
+		}else{
+			operationResume = dao.select(operationResume);
+		}
 		
 		return operationResume;
 	}

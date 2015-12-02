@@ -5,6 +5,7 @@
 		<mapping-file>META-INF/orm.xml</mapping-file>
 		<class>br.com.lucro.manager.model.FileHeaderCielo</class>
 		<class>br.com.lucro.manager.model.FileOperationResumeCielo</class>
+		<class>br.com.lucro.manager.model.FileSalesReceiptCielo</class>
 		
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/lucro?ApplicationName=LucroManager"/>

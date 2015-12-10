@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2015-11-30T14:12:35.192-0200")
+@Generated(value="Dali", date="2015-12-02T18:42:55.386-0200")
 @StaticMetamodel(FileHeaderCielo.class)
 public class FileHeaderCielo_ {
 	public static volatile SingularAttribute<FileHeaderCielo, Long> id;
@@ -18,4 +18,5 @@ public class FileHeaderCielo_ {
 	public static volatile SingularAttribute<FileHeaderCielo, Integer> typeExtractOptionId;
 	public static volatile SingularAttribute<FileHeaderCielo, String> van;
 	public static volatile SingularAttribute<FileHeaderCielo, String> mailbox;
+	public static volatile SingularAttribute<FileHeaderCielo, String> file;
 }

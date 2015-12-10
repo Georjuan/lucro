@@ -10,8 +10,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import br.com.lucro.manager.dao.FileSalesReceiptCieloDAO;
 import br.com.lucro.manager.model.FileHeaderCielo;
@@ -25,7 +24,7 @@ import br.com.lucro.manager.service.FileSalesReceiptCieloService;
 public class FileSalesReceiptCieloServiceImpl implements FileSalesReceiptCieloService {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(FileSalesReceiptCieloServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(FileSalesReceiptCieloServiceImpl.class);
 	
 	@Inject
 	private FileSalesReceiptCieloDAO dao;

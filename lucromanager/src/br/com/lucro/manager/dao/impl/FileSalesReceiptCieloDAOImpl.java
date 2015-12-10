@@ -10,8 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import br.com.lucro.manager.dao.DAOManager;
 import br.com.lucro.manager.dao.FileSalesReceiptCieloDAO;
@@ -25,7 +24,7 @@ import br.com.lucro.manager.model.FileSalesReceiptCielo_;
 public class FileSalesReceiptCieloDAOImpl implements FileSalesReceiptCieloDAO {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(FileSalesReceiptCieloDAOImpl.class);
+	private static final Logger logger = Logger.getLogger(FileSalesReceiptCieloDAOImpl.class);
 	
 	@Inject
 	private DAOManager dao;

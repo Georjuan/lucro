@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2015-12-02T11:55:39.584-0200")
+@Generated(value="Dali", date="2015-12-02T16:46:24.682-0200")
 @StaticMetamodel(FileSalesReceiptCielo.class)
 public class FileSalesReceiptCielo_ {
 	public static volatile SingularAttribute<FileSalesReceiptCielo, Long> id;
@@ -28,9 +28,9 @@ public class FileSalesReceiptCielo_ {
 	public static volatile SingularAttribute<FileSalesReceiptCielo, Integer> rejectionReasonId;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, String> requestCode;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, Date> saleAdjustDate;
+	public static volatile SingularAttribute<FileSalesReceiptCielo, String> terminalNumber;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, String> tid;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, String> transactionNumber;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, Time> transactionTime;
 	public static volatile SingularAttribute<FileSalesReceiptCielo, FileHeaderCielo> header;
-	public static volatile SingularAttribute<FileSalesReceiptCielo, String> terminalNumber;
 }

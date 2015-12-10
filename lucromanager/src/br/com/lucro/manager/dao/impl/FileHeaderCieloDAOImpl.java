@@ -7,8 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import br.com.lucro.manager.dao.DAOManager;
 import br.com.lucro.manager.dao.FileHeaderCieloDAO;
@@ -22,7 +21,7 @@ import br.com.lucro.manager.model.FileHeaderCielo_;
 public class FileHeaderCieloDAOImpl implements FileHeaderCieloDAO {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(FileHeaderCieloDAOImpl.class);
+	private static final Logger logger = Logger.getLogger(FileHeaderCieloDAOImpl.class);
 	
 	@Inject
 	private DAOManager dao;

@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 /**
  * The persistent class for the file_tivit_cielo_operation_resume database table.
@@ -24,7 +25,10 @@ import javax.persistence.TemporalType;
  * de manutenção possíveis. Disponibilizado para todos os extratos.
  */
 @Entity
-@Table(name="file_tivit_cielo_operation_resume")
+@Table(
+		name="file_tivit_cielo_operation_resume", 
+		uniqueConstraints = @UniqueConstraint(columnNames={"parcel","operation_resume_number"})
+	)
 @NamedQuery(name="FileOperationResumeCielo.findAll", query="SELECT f FROM FileOperationResumeCielo f")
 public class FileOperationResumeCielo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -95,7 +99,7 @@ public class FileOperationResumeCielo implements Serializable {
 	@Column(name="operation_resume_lot_number")
 	private String operationResumeLotNumber;
 
-	@Column(name="operation_resume_number", unique=true)
+	@Column(name="operation_resume_number")
 	private String operationResumeNumber;
 
 	private Integer parcel;

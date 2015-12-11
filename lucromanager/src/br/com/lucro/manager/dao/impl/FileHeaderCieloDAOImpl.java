@@ -80,8 +80,9 @@ public class FileHeaderCieloDAOImpl implements FileHeaderCieloDAO {
 		
 		Root<FileHeaderCielo> root = query.from(FileHeaderCielo.class);
 		
-		query.where(
-			criteria.equal(root.get(FileHeaderCielo_.fileNumber), fileHeader.getFileNumber())
+		query.where(				
+			criteria.equal(root.get(FileHeaderCielo_.fileNumber), fileHeader.getFileNumber()),
+			criteria.equal(root.get(FileHeaderCielo_.typeExtractOptionId), fileHeader.getTypeExtractOptionId())
 		);
 		
 		List<FileHeaderCielo> headers = dao.getEntityManager().createQuery(query).getResultList();

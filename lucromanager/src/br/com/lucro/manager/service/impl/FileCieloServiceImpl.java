@@ -12,15 +12,17 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.io.Files;
+
 import br.com.lucro.manager.dao.DAOManager;
 import br.com.lucro.manager.model.FileHeaderCielo;
+import br.com.lucro.manager.model.FileOperationResumeCielo;
+import br.com.lucro.manager.model.FileSalesReceiptCielo;
 import br.com.lucro.manager.service.FileCieloService;
 import br.com.lucro.manager.service.FileHeaderCieloService;
 import br.com.lucro.manager.service.FileOperationResumeCieloService;
 import br.com.lucro.manager.service.FileSalesReceiptCieloService;
 import br.com.lucro.manager.util.Properties;
-
-import com.google.common.io.Files;
 
 /**
  * @author "Georjuan Taylor"
@@ -169,6 +171,8 @@ public class FileCieloServiceImpl implements FileCieloService {
 
     	}
     	
+    	logger.info(String.format("All files processed in success!\n"));
+    	
     	//Close connection
 		daoManager.close();		
 	}
@@ -189,21 +193,28 @@ public class FileCieloServiceImpl implements FileCieloService {
 	 * Process file Operation Resume line
 	 * @param line
 	 */
-	private void processOperationResume(String line, FileHeaderCielo fileHeader) throws Exception {
+	private FileOperationResumeCielo processOperationResume(String line, FileHeaderCielo fileHeader) throws Exception {
 		if(line == null || line.trim().isEmpty()) throw new Exception("Line content is invalid!");
 		
 		if(fileHeader == null || fileHeader.getId()==null || fileHeader.getId().longValue() <= 0) throw new Exception("Header file is invalid!");
 		
+		FileOperationResumeCielo operationResume = serviceFileOperationResume.processOperation(line, fileHeader);
+		
+		return operationResume;
 	}
 	
 	/**
 	 * Process file Sales Receipt line
 	 * @param line
 	 */
-	private void processSalesReceipt(String line, FileHeaderCielo fileHeader) throws Exception {
+	private FileSalesReceiptCielo processSalesReceipt(String line, FileHeaderCielo fileHeader) throws Exception {
 		if(line == null || line.trim().isEmpty()) throw new Exception("Line content is invalid!");
 		
 		if(fileHeader == null || fileHeader.getId()==null || fileHeader.getId().longValue() <= 0) throw new Exception("Header file is invalid!");
+		
+		FileSalesReceiptCielo salesReceipt = serviceSalesReceipt.processReceipt(line, fileHeader);
+		
+		return salesReceipt;
 				
 	}
 	

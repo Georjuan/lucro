@@ -11,7 +11,10 @@ import java.util.Date;
  * TIPO 0 - Identifica o cabeçalho de cada arquivo por cadeia de extrato eletrônico. 
  */
 @Entity
-@Table(name="file_tivit_cielo_header")
+@Table(
+		name="file_tivit_cielo_header",
+		uniqueConstraints=@UniqueConstraint(columnNames={"file_number","type_extract_option_id"})
+	)
 @NamedQuery(name="FileHeaderCielo.findAll", query="SELECT f FROM FileHeaderCielo f")
 public class FileHeaderCielo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +31,7 @@ public class FileHeaderCielo implements Serializable {
 	@Column(name="establishment_number")
 	private String establishmentNumber;
 
-	@Column(name="file_number", unique=true)
+	@Column(name="file_number")
 	private String fileNumber;
 
 	@Column(name="layout_version")

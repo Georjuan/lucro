@@ -29,7 +29,7 @@ public class Main {
 			System.out.println("Welcome LucroManager!");
 			System.out.println("\nEnter path files location: ");
 			
-			String path  = "/media/Windows x64/Cielo"; // br.readLine().trim();
+			String path  = "/media/WINDOWS/Cielo"; // br.readLine().trim();
 			
 			service.setPath(path);
 			service.processFiles();

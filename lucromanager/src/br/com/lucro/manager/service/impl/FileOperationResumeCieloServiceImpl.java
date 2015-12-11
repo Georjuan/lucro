@@ -33,7 +33,9 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		Pattern search = Pattern.compile("^(\\d{1})(\\d{10})(\\d{7})(.{2})(.{1})(.{2})(\\d{2})(\\d{6})(\\d{6})(\\d{6})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})(\\d{4})(\\d{5})(.{14})(\\d{2})(\\d{6})(\\d{2})(\\d{6})(.{1})(\\d{6})(.{2})(\\d{13})(.{1})(\\d{9})([\\+\\-]{1})(\\d{13})(\\d{3})(\\d{22})(\\d{4})(\\d{5})(\\d{4})(.{2})(.{8})(\\d{3})");
 	    Matcher matcher = search.matcher(line);
 		
-		if(!matcher.find()) throw new Exception("Dados não correnpondem ao padrão especificado!");
+		if(!matcher.find()){
+			throw new Exception("Dados não correnpondem ao padrão especificado!");
+		}
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
 		

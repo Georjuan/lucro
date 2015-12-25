@@ -17,10 +17,14 @@ import com.google.common.io.Files;
 import br.com.lucro.manager.dao.DAOManager;
 import br.com.lucro.manager.model.FileHeaderCielo;
 import br.com.lucro.manager.model.FileOperationResumeCielo;
+import br.com.lucro.manager.model.FileOperationResumeOutstandingBalanceCielo;
+import br.com.lucro.manager.model.FileOutstandingBalanceByFlagCielo;
 import br.com.lucro.manager.model.FileSalesReceiptCielo;
 import br.com.lucro.manager.service.FileCieloService;
 import br.com.lucro.manager.service.FileHeaderCieloService;
 import br.com.lucro.manager.service.FileOperationResumeCieloService;
+import br.com.lucro.manager.service.FileOperationResumeOutstandingBalanceCieloService;
+import br.com.lucro.manager.service.FileOutstandingBalanceByFlagCieloService;
 import br.com.lucro.manager.service.FileSalesReceiptCieloService;
 import br.com.lucro.manager.util.Properties;
 
@@ -47,6 +51,14 @@ public class FileCieloServiceImpl implements FileCieloService {
 	@Inject
 	private FileOperationResumeCieloService serviceFileOperationResume;	
 	
+	//Process Operation Resume Outstanding Balance data
+	@Inject
+	private FileOperationResumeOutstandingBalanceCieloService serviceFileOperationResumeOutstandingBalance;
+	
+	//Process Outstanding Balance by card flag data
+	@Inject
+	private FileOutstandingBalanceByFlagCieloService serviceOutstandingBalanceByFlag;
+		
 	//Process Sales Receipt data
 	@Inject
 	private FileSalesReceiptCieloService serviceSalesReceipt;
@@ -113,6 +125,9 @@ public class FileCieloServiceImpl implements FileCieloService {
 	    		//Loop over each file line
 	    		for(String line : lines){
 	    			
+	    			//Ignore empty lines
+	    			if(line.trim().isEmpty()) return;
+	    			
 	    			logger.debug(String.format("Processing content [%s]...", line));					
 					
 	    			//The first char in the line says the content type
@@ -135,6 +150,18 @@ public class FileCieloServiceImpl implements FileCieloService {
 	    						processSalesReceipt(line, fileHeader);
 	    					}
 	    				break;
+	    				case '3':					
+	    					{
+	    						logger.debug(String.format("**OPERATION RESUME OUTSTANDING BALANCE**"));
+	    						processOperationResumeOutstandingBalance(line, fileHeader);
+	    					}
+    					break;
+	    				case '4':					
+	    					{
+	    						logger.debug(String.format("**OUTSTANDING BALANCE BY FLAG**"));
+	    						processOutstandingBalanceByFlag(line, fileHeader);
+	    					}
+						break;
 	    				case '9':					
 	    					{
 	    						logger.debug(String.format("**EOF**"));
@@ -148,7 +175,7 @@ public class FileCieloServiceImpl implements FileCieloService {
 	    					{
 	    						logger.error(String.format("Register type [%d] unknown!\nFile process canceled!"));
 	    						throw new Exception("Unknown register type!");
-	    					}
+	    					}	    					
 	    			}
 					
 					logger.debug(String.format("Processed!"));
@@ -159,6 +186,11 @@ public class FileCieloServiceImpl implements FileCieloService {
 	    		daoManager.commitTransaction();
 	    		
 	    		logger.info(String.format("File processed in success!\n"));
+	    		
+	    		//Remove file
+	    		if(!txtFile.delete()){
+	    			logger.info(String.format("Could not remove the file: %s\n", txtFile.getAbsolutePath()));
+	    		}
 	    		
     		}catch(Exception e){
     			//Log error
@@ -214,8 +246,35 @@ public class FileCieloServiceImpl implements FileCieloService {
 		
 		FileSalesReceiptCielo salesReceipt = serviceSalesReceipt.processReceipt(line, fileHeader);
 		
-		return salesReceipt;
-				
+		return salesReceipt;				
+	}
+	
+	/**
+	 * Process file Operation Resume Outstanding Balance line
+	 * @param line
+	 */
+	private FileOperationResumeOutstandingBalanceCielo processOperationResumeOutstandingBalance(String line, FileHeaderCielo fileHeader) throws Exception {
+		if(line == null || line.trim().isEmpty()) throw new Exception("Line content is invalid!");
+		
+		if(fileHeader == null || fileHeader.getId()==null || fileHeader.getId().longValue() <= 0) throw new Exception("Header file is invalid!");
+		
+		FileOperationResumeOutstandingBalanceCielo outstandingBalance = serviceFileOperationResumeOutstandingBalance.processOperation(line, fileHeader);
+		
+		return outstandingBalance;				
+	}
+	
+	/**
+	 * Process file Outstanding Balance By Flag line
+	 * @param line
+	 */
+	private FileOutstandingBalanceByFlagCielo processOutstandingBalanceByFlag(String line, FileHeaderCielo fileHeader) throws Exception {
+		if(line == null || line.trim().isEmpty()) throw new Exception("Line content is invalid!");
+		
+		if(fileHeader == null || fileHeader.getId()==null || fileHeader.getId().longValue() <= 0) throw new Exception("Header file is invalid!");
+		
+		FileOutstandingBalanceByFlagCielo outstandingBalance = serviceOutstandingBalanceByFlag.processOperation(line, fileHeader);
+		
+		return outstandingBalance;				
 	}
 	
 	/**

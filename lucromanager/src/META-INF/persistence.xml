@@ -6,6 +6,8 @@
 		<class>br.com.lucro.manager.model.FileHeaderCielo</class>
 		<class>br.com.lucro.manager.model.FileOperationResumeCielo</class>
 		<class>br.com.lucro.manager.model.FileSalesReceiptCielo</class>
+		<class>br.com.lucro.manager.model.FileOperationResumeOutstandingBalanceCielo</class>
+		<class>br.com.lucro.manager.model.FileOutstandingBalanceByFlagCielo</class>
 		
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/lucro?ApplicationName=LucroManager"/>

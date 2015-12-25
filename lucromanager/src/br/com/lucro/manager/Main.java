@@ -11,7 +11,6 @@ import br.com.lucro.manager.util.Properties;
 
 public class Main {
 	
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(Main.class);
 	
 	public static void main(String[] args) {
@@ -22,8 +21,8 @@ public class Main {
 		String f = Properties.getProperty(Properties.FILES_CIELO_CHARSET);
 		System.out.println(f);
 		
-		
 		try {			
+			@SuppressWarnings("unused")
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			
 			System.out.println("Welcome LucroManager!");
@@ -35,10 +34,10 @@ public class Main {
 			service.processFiles();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Process error: " + e.getMessage(), e);
 		}		
 		
-		System.exit(0);
+		try{context.shutdown(); System.exit(0);}catch(Exception e){logger.error("Weld error: " + e.getMessage(), e);}
 	}
 
 }

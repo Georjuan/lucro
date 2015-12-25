@@ -30,7 +30,7 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 	public FileOperationResumeCielo processOperation(String line, FileHeaderCielo fileHeaderCielo) throws Exception {
 		FileOperationResumeCielo operationResume = new FileOperationResumeCielo();
 		
-		Pattern search = Pattern.compile("^(\\d{1})(\\d{10})(\\d{7})(.{2})(.{1})(.{2})(\\d{2})(\\d{6})(\\d{6})(\\d{6})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})(\\d{4})(\\d{5})(.{14})(\\d{2})(\\d{6})(\\d{2})(\\d{6})(.{1})(\\d{6})(.{2})(\\d{13})(.{1})(\\d{9})([\\+\\-]{1})(\\d{13})(\\d{3})(\\d{22})(\\d{4})(\\d{5})(\\d{4})(.{2})(.{8})(\\d{3})");
+		Pattern search = Pattern.compile("^(\\d{1})(\\d{10})(\\d{7})(.{2})(.{1})(.{2})(\\d{2})(\\d{6})(\\d{6})(\\d{6})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})([\\+\\-]{1})(\\d{13})(\\d{4})(\\d{5})(.{14})(\\d{2})(\\d{6})(\\d{2})(\\d{6})(.{1})(.{6})(.{2})(\\d{13})(.{1})(\\d{9})([\\+\\-]{1})(\\d{13})(\\d{3})(\\d{22})(\\d{4})(\\d{5})(\\d{4})(.{2})(.{8})(\\d{3})");
 	    Matcher matcher = search.matcher(line);
 		
 		if(!matcher.find()){
@@ -44,10 +44,10 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		operationResume.setParcel(matcher.group(4).trim().isEmpty() ? null : Integer.parseInt(matcher.group(4)));
 		operationResume.setFiller(matcher.group(5).trim().isEmpty() ? null : matcher.group(5));
 		operationResume.setPlan(matcher.group(6).trim().isEmpty() ? null : matcher.group(6));
-		operationResume.setTypeTransactionId(Integer.parseInt(matcher.group(7)));		
+		operationResume.setTypeTransactionId((matcher.group(7).trim().isEmpty() || Integer.parseInt(matcher.group(7))==0) ? null : Integer.parseInt(matcher.group(7)));		
 		operationResume.setTransferDate(dateFormat.parse(matcher.group(8)));
 		operationResume.setPaymentForecastDate(dateFormat.parse(matcher.group(9)));
-		operationResume.setSentBankDate(dateFormat.parse(matcher.group(10)));		
+		operationResume.setSentBankDate((matcher.group(10).trim().isEmpty() || Integer.parseInt(matcher.group(10))==0) ? null : dateFormat.parse(matcher.group(10)));		
 		operationResume.setGrossValue((Double.parseDouble(matcher.group(12)) / (double)100) * (matcher.group(11).equals("-")?-1:1));
 		operationResume.setFeeValue((Double.parseDouble(matcher.group(14)) / (double)100) * (matcher.group(13).equals("-")?-1:1));
 		operationResume.setRejectedValue((Double.parseDouble(matcher.group(16)) / (double)100) * (matcher.group(15).equals("-")?-1:1));
@@ -59,7 +59,7 @@ public class FileOperationResumeCieloServiceImpl implements FileOperationResumeC
 		operationResume.setAcceptedSales(Integer.parseInt(matcher.group(23)));
 		operationResume.setRejectedSales(Integer.parseInt(matcher.group(25)));
 		operationResume.setResaleAccelerationIndicator(matcher.group(26).trim().isEmpty() ? null : matcher.group(26));
-		operationResume.setCatchTransactionDate(dateFormat.parse(matcher.group(27)));
+		operationResume.setCatchTransactionDate(matcher.group(27).trim().isEmpty() ? null : dateFormat.parse(matcher.group(27)));
 		operationResume.setAdjustmentSourceId(matcher.group(28).trim().isEmpty() ? null : Integer.parseInt(matcher.group(28)));
 		operationResume.setComplementaryValue(Double.valueOf(matcher.group(29)) / (double)100);
 		operationResume.setFinancialProductIdentifier(matcher.group(30).trim().isEmpty() ? null : matcher.group(30));

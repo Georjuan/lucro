@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(
 		name="file_tivit_cielo_operation_resume", 
-		uniqueConstraints = @UniqueConstraint(columnNames={"parcel","operation_resume_number"})
+		uniqueConstraints = @UniqueConstraint(columnNames={"operation_resume_lot_number", "operation_resume_number", "parcel"})
 	)
 @NamedQuery(name="FileOperationResumeCielo.findAll", query="SELECT f FROM FileOperationResumeCielo f")
 public class FileOperationResumeCielo implements Serializable {

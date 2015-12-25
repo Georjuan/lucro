@@ -49,7 +49,9 @@ public class FileOperationResumeCieloDAOImpl implements FileOperationResumeCielo
 		Root<FileOperationResumeCielo> root = query.from(FileOperationResumeCielo.class);
 		
 		query.where(
-			criteria.equal(root.get(FileOperationResumeCielo_.operationResumeNumber), operationResume.getOperationResumeNumber())
+			criteria.equal(root.get(FileOperationResumeCielo_.operationResumeLotNumber), operationResume.getOperationResumeLotNumber()),
+			criteria.equal(root.get(FileOperationResumeCielo_.operationResumeNumber), operationResume.getOperationResumeNumber()),
+			criteria.equal(root.get(FileOperationResumeCielo_.parcel), operationResume.getParcel())
 		);
 		
 		List<FileOperationResumeCielo> headers = dao.getEntityManager().createQuery(query).getResultList();
@@ -86,6 +88,7 @@ public class FileOperationResumeCieloDAOImpl implements FileOperationResumeCielo
 		Root<FileOperationResumeCielo> root = query.from(FileOperationResumeCielo.class);
 		
 		query.where(
+			criteria.equal(root.get(FileOperationResumeCielo_.operationResumeLotNumber), operationResume.getOperationResumeLotNumber()),
 			criteria.equal(root.get(FileOperationResumeCielo_.operationResumeNumber), operationResume.getOperationResumeNumber()),
 			criteria.equal(root.get(FileOperationResumeCielo_.parcel), operationResume.getParcel())
 		);

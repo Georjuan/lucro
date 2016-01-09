@@ -10,10 +10,15 @@
 		<class>br.com.lucro.manager.model.FileOutstandingBalanceByFlagCielo</class>
 		
 		<properties>
-			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/lucro?ApplicationName=LucroManager"/>
-			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+			<!--
+			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/lucro?ApplicationName=LucroServer"/>
 			<property name="hibernate.connection.username" value="lucro"/>
 			<property name="hibernate.connection.password" value="root"/>
+			-->
+			<property name="hibernate.connection.url" value="jdbc:postgresql://lukredb.c7ir54bchoqo.us-west-2.rds.amazonaws.com:5432/lukre_db?ApplicationName=LucroServer"/>
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+			<property name="hibernate.connection.username" value="lukrerds"/>
+			<property name="hibernate.connection.password" value="lukre.me89#5"/>
 			<property name="hibernate.default_schema" value="public"/>
 			
 			<property name="hibernate.show_sql" value="true"/>

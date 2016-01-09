@@ -13,6 +13,30 @@
 	<annotation-driven />
 	<context:annotation-config/>
 
+	<!-- Security -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/app/**"/>
+			<beans:bean class="br.com.lucro.server.service.security.AuthInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- Cross origin configurations -->
+	<cors>
+		<mapping path="/app/**"
+			allow-credentials="false"
+			allowed-origins="*"
+			allowed-methods="GET, POST, PUT, DELETE"
+			max-age="60"
+			/>
+		<mapping path="/auth/login"
+			allow-credentials="false"
+			allowed-origins="*"
+			allowed-methods="POST"
+			max-age="60"
+			/>
+	</cors>
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 

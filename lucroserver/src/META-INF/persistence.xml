@@ -3,25 +3,49 @@
 							xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 							xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
-	<persistence-unit name="lucroserver">
+	<persistence-unit name="lukreserver">
 		<mapping-file>META-INF/orm.xml</mapping-file>
+		<mapping-file>META-INF/sql/SoldValueByPaymentMethodSQL.xml</mapping-file>
+		<mapping-file>META-INF/sql/AverageTicketSQL.xml</mapping-file>
+		<mapping-file>META-INF/sql/SoldValueByFlagSQL.xml</mapping-file>
+		
+		<class>br.com.lucro.server.model.CardFlag</class>
+		<class>br.com.lucro.server.model.Authentication</class>
 		
 		<properties>
+			<!--
 			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/lucro?ApplicationName=LucroServer"/>
-			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
 			<property name="hibernate.connection.username" value="lucro"/>
 			<property name="hibernate.connection.password" value="root"/>
-			<property name="hibernate.default_schema" value="public"/>
-			
-			<property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true"/>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
-			
-			<property name="hibernate.id.new_generator_mappings" value="false"/>
+			-->
+			<property name="hibernate.connection.url" value="jdbc:postgresql://lukredb.c7ir54bchoqo.us-west-2.rds.amazonaws.com:5432/lukre_db?ApplicationName=LucroServer"/>
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+			<property name="hibernate.connection.password" value="lukre.me89#5"/>
+			<property name="hibernate.connection.username" value="lukrerds"/>			
 			<property name="hibernate.connection.autocommit" value="true"/>
+			<!-- <property name="hibernate.connection.provider_class" value="org.hibernate.c3p0.internal.C3P0ConnectionProvider"/>  -->
+						
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+			<property name="hibernate.default_schema" value="public"/>			
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>			
+			
+			<property name="hibernate.id.new_generator_mappings" value="false"/>			
 			<property name="hibernate.jdbc.use_get_generated_keys" value="true"/>			
 			<property name="hibernate.current_session_context_class" value="thread"/>
-			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>	
+			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
+			
+			<!-- 
+			<property name="hibernate.c3p0.min_size" value="1"/>
+			<property name="hibernate.c3p0.max_size" value="10"/>
+			<property name="hibernate.c3p0.timeout" value="300"/>
+			<property name="hibernate.c3p0.max_statements" value="30"/>
+			<property name="hibernate.c3p0.idle_test_period" value="300"/>
+			<property name="hibernate.c3p0.testConnectionOnCheckin" value="true"/>
+			<property name="hibernate.c3p0.testConnectionOnCheckout" value="false"/>			
+			<property name="hibernate.c3p0.preferredTestQuery" value="SELECT 1"/>
+			 -->
+
 		</properties>
 		
 	</persistence-unit>

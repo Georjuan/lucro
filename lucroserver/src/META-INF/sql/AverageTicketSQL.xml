@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" 
+								xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+								xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+	
+	<named-native-query name="AverageTicketSQL" result-set-mapping="AverageTicketMapping">
+		<query>
+		SELECT SUM(sold_value) AS sold_value, SUM(quantity) AS quantity, (SUM(sold_value)/SUM(quantity)) AS average_value FROM 
+		(
+			SELECT SUM(file.payment_value) AS sold_value,
+			COUNT(*) AS quantity
+			FROM file_tivit_cielo_sales_receipt file
+			INNER JOIN rel_company_acquirer ON rel_company_acquirer.company_id = :company_id
+			AND rel_company_acquirer.establishment_number = file.establishment_number
+			WHERE file.sale_adjust_date BETWEEN :start_date \:\:DATE AND :end_date \:\:DATE
+			AND file.installments_value = 0
+			GROUP BY file.establishment_number
+			
+			UNION ALL
+			
+			SELECT SUM(file.installments_value) AS sold_value,
+			COUNT(*) AS quantity
+			FROM file_tivit_cielo_sales_receipt file
+			INNER JOIN rel_company_acquirer ON rel_company_acquirer.company_id = :company_id
+			AND rel_company_acquirer.establishment_number = file.establishment_number
+			WHERE file.sale_adjust_date BETWEEN :start_date \:\:DATE AND :end_date \:\:DATE
+			AND file.installments_value > 0
+			GROUP BY file.establishment_number
+		) tmp
+		</query>
+	</named-native-query>
+	<sql-result-set-mapping name="AverageTicketMapping">
+		<constructor-result target-class="br.com.lucro.server.model.AverageTicket">
+			<column name="sold_value" class="java.lang.Double"/>
+			<column name="quantity" class="java.lang.Integer"/>
+			<column name="average_value" class="java.lang.Double"/>
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+</entity-mappings>

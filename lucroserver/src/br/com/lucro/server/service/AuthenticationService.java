@@ -9,12 +9,9 @@ import br.com.lucro.server.model.Authentication;
  * Manager authentication process interface
  * @author Georjuan Taylor
  */
-public interface AuthenticationManager {
+public interface AuthenticationService {
 	
 	/** Authenticate a web request */
-	public boolean webAuthentication(Authentication auth) throws Exception;
-	
-	/** Authenticate a web request */
-	public boolean webAuthentication(String authorization) throws Exception;
+	public Authentication auth(Authentication auth) throws Exception;
 	
 }

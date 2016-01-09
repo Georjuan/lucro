@@ -22,10 +22,14 @@ public class WebResponse implements Serializable {
 
 	/** Web response code status */
 	private EnumWebResponse status;
+	
 	/** Web response message status */
 	private String message;
+	
 	/** Date/Time operation in DB */
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy HH:mm:ss Z", timezone="America/Sao_Paulo")
 	private Date datetime;
+	
 	/** Web response map */
 	private Map<String, Object> response;
 	
@@ -90,7 +94,6 @@ public class WebResponse implements Serializable {
 	/**
 	 * @return The {@link #datetime}
 	 */
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy HH:mm:ss Z", timezone="America/Sao_Paulo")
 	public Date getDatetime() {
 		return this.datetime;
 	}

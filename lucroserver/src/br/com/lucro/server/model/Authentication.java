@@ -3,51 +3,127 @@
  */
 package br.com.lucro.server.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Web authentication bean
  * @author Georjuan Taylor
  */
+@Entity
 public class Authentication {
 
+	public enum EnumAccessType{
+		LOGIN,SESSION;
+	}
+	
+	public enum EnumUserType{
+		COMPANY,APP,ADMIN,SYSTEM;
+	}
+	
 	/** User name */
-	private String user;
+	@Id
+	private String username;
+	/** Session hash */
+	@Column
+	private String session;
+	/** User Type */
+	@JsonProperty("user_type")
+	@Column(name="access")	
+	private String userType;
+	
 	/** Password */
+	@Transient
+	@JsonIgnore
 	private String password;
+	
+	/** Access Type */
+	@Transient
+	@JsonIgnore
+	private EnumAccessType access;
 		
 	public Authentication(){}
 	
-	public Authentication(String user, String password) {
-		this.user = user;
+	public Authentication(String user, String password, EnumAccessType access) {
+		this.username = user;
 		this.password = password;
+		this.access = access;
+		this.session = "";
 	}
-
+	
 	/**
-	 * @return The {@link #user}
+	 * @return the username
 	 */
-	public String getUser() {
-		return this.user;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
-	 * @param user - Set the {@link #user} value.
+	 * @param username the username to set
 	 */
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	/**
-	 * @return The {@link #password}
+	 * @return the password
 	 */
 	public String getPassword() {
-		return this.password;
+		return password;
 	}
 
 	/**
-	 * @param password - Set the {@link #password} value.
+	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	/**
+	 * @return the session
+	 */
+	public String getSession() {
+		return session;
+	}
+
+	/**
+	 * @param session the session to set
+	 */
+	public void setSession(String session) {
+		this.session = session;
+	}
+
+	/**
+	 * @return the userType
+	 */
+	public EnumUserType getUserType() {
+		return EnumUserType.valueOf(this.userType);
+	}
+
+	/**
+	 * @param userType the userType to set
+	 */
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	/**
+	 * @return the access
+	 */
+	public EnumAccessType getAccess() {
+		return access;
+	}
+
+	/**
+	 * @param access the access to set
+	 */
+	public void setAccess(EnumAccessType access) {
+		this.access = access;
 	}
 
 }

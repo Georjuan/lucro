@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
 <html>
 <head>
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
@@ -12,11 +12,16 @@
 
 <title>LucroAzul Server</title>
 </head>
-<body>
-	<div class="container">
+<body ng-app="lucroApp">
+	<div class="container" ng-controller="homeCtrl">
 		<div class="jumbotron text-center">
 			<h1>Welcome LucroAzul Server!</h1>
 		</div>
 	</div>
+	
+	<script>
+      angular.module('lucroApp', []);
+      angular.module('lucroApp').controller('homeCtrl', function($scope) {});
+    </script>
 </body>
 </html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" 
+								xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+								xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+	
+	<named-native-query name="SoldValueByFlagSQL" result-set-mapping="SoldValueByFlagMapping">
+		<query>
+		SELECT establishment_number, flag_id, SUM(debt_value) AS value_debt, SUM(credit_in_cash_value) AS value_credit_in_cash, SUM(credit_financed_value) AS value_credit_financed FROM
+		(		
+			SELECT receipt.establishment_number, receipt.payment_value AS debt_value, 0 AS credit_in_cash_value, 0 AS credit_financed_value, get_card_flag(receipt.card_number) AS flag_id
+			FROM file_tivit_cielo_sales_receipt receipt
+			INNER JOIN file_tivit_cielo_operation_resume ro ON ro.establishment_number = receipt.establishment_number
+			AND ro.operation_resume_lot_number = receipt.operation_resume_lot_number
+			INNER JOIN rel_tivit_cielo_product_payment_method rel_payment ON rel_payment.product_id = ro.product_id
+			INNER JOIN param_payment_method payment ON payment.id = rel_payment.payment_method_id
+			AND payment.id = 1
+			INNER JOIN rel_company_acquirer ON rel_company_acquirer.establishment_number = receipt.establishment_number
+			AND rel_company_acquirer.company_id = :company_id
+			WHERE receipt.sale_adjust_date BETWEEN :start_date \:\:DATE AND :end_date \:\:DATE
+			GROUP BY receipt.establishment_number, receipt.terminal_number, receipt.nsu, get_card_flag(receipt.card_number), receipt.payment_value
+						
+			UNION ALL
+			
+			SELECT receipt.establishment_number, 0 AS debt_value, receipt.payment_value AS credit_in_cash_value, 0 AS credit_financed_value, get_card_flag(receipt.card_number) AS flag_id
+			FROM file_tivit_cielo_sales_receipt receipt
+			INNER JOIN file_tivit_cielo_operation_resume ro ON ro.establishment_number = receipt.establishment_number
+			AND ro.operation_resume_lot_number = receipt.operation_resume_lot_number
+			INNER JOIN rel_tivit_cielo_product_payment_method rel_payment ON rel_payment.product_id = ro.product_id
+			INNER JOIN param_payment_method payment ON payment.id = rel_payment.payment_method_id
+			AND payment.id = 2
+			INNER JOIN rel_company_acquirer ON rel_company_acquirer.establishment_number = receipt.establishment_number
+			AND rel_company_acquirer.company_id = :company_id
+			WHERE receipt.sale_adjust_date BETWEEN :start_date \:\:DATE AND :end_date \:\:DATE
+			GROUP BY receipt.establishment_number, receipt.terminal_number, receipt.nsu, get_card_flag(receipt.card_number), receipt.payment_value
+			
+			UNION ALL
+			
+			SELECT receipt.establishment_number, 0 AS debt_value, 0 AS credit_in_cash_value, receipt.installments_value AS credit_financed_value, get_card_flag(receipt.card_number) AS flag_id
+			FROM file_tivit_cielo_sales_receipt receipt
+			INNER JOIN file_tivit_cielo_operation_resume ro ON ro.establishment_number = receipt.establishment_number
+			AND ro.operation_resume_lot_number = receipt.operation_resume_lot_number
+			INNER JOIN rel_tivit_cielo_product_payment_method rel_payment ON rel_payment.product_id = ro.product_id
+			INNER JOIN param_payment_method payment ON payment.id = rel_payment.payment_method_id
+			AND payment.id = 3
+			INNER JOIN rel_company_acquirer ON rel_company_acquirer.establishment_number = receipt.establishment_number
+			AND rel_company_acquirer.company_id = :company_id
+			WHERE receipt.sale_adjust_date BETWEEN :start_date \:\:DATE AND :end_date \:\:DATE
+			GROUP BY receipt.establishment_number, receipt.terminal_number, receipt.nsu, get_card_flag(receipt.card_number), receipt.installments_value
+		) tmp GROUP BY establishment_number, flag_id
+		</query>
+	</named-native-query>
+	<sql-result-set-mapping name="SoldValueByFlagMapping">
+		<constructor-result target-class="br.com.lucro.server.model.SoldValueByFlag">
+			<column name="value_debt" class="java.lang.Double"/>
+			<column name="value_credit_in_cash" class="java.lang.Double"/>
+			<column name="value_credit_financed" class="java.lang.Double"/>
+			<column name="flag_id" class="java.lang.Integer"/>
+		</constructor-result>
+	</sql-result-set-mapping>
+	
+</entity-mappings>

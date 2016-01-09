@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lucroserver</groupId>
 	<artifactId>lucroserver</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -40,11 +40,21 @@
 			</plugin>
 		</plugins>
 	</build>
+    <organization>
+    	<name>Lukre</name>
+    	<url>http://www.lukre.me/</url>
+    </organization>	
 	<properties>
 		<spring-version>4.2.4.RELEASE</spring-version>
 		<spring-security-version>4.0.3.RELEASE</spring-security-version>
 		<hibernate-version>5.0.6.Final</hibernate-version>
 	</properties>
+	<repositories>
+		<repository>
+	  		<id>public</id>
+	  		<url>http://maven.nuxeo.org/nexus/content/repositories/public/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -60,7 +70,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring-version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -75,32 +85,41 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate-version}</version>
-			<exclusions> 
-	            <exclusion>
-	                <groupId>dom4j</groupId>
-	                <artifactId>dom4j</artifactId>
-	            </exclusion>
-        	</exclusions>
+			<exclusions>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>3.2.0.Final</version>
 		</dependency>
+		-->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring-security-version}</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>4.3.11.Final</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-security-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -112,7 +131,7 @@
 			<artifactId>persistence-api</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.5.1</version>
@@ -132,5 +151,27 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+		   <groupId>atg.taglib.json</groupId>
+		   <artifactId>json-taglib</artifactId>
+		   <version>0.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.14</version>
+		</dependency>		
 	</dependencies>
+	<name>Lukre WebServer</name>
+	<url>http://ec2-54-201-177-130.us-west-2.compute.amazonaws.com/</url>
 </project>

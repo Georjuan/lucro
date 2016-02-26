@@ -4,8 +4,7 @@
 package br.com.lucro.server.util;
 
 import java.lang.reflect.Field;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,12 +43,12 @@ public abstract class Utils {
 
 	/** Format received parameters in request to map */
 	//TODO Change the parameter type to Map
-	public static String getMapParam(HttpServletRequest request) {
+	public static String getMapParam(Map<?,?> parameters) {
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("dd/MM/yyyy HH:mm:ss Z");
         Gson gson = gsonBuilder.create();
 		
-		JsonElement json = gson.toJsonTree(request.getParameterMap());
+		JsonElement json = gson.toJsonTree(parameters);
 
 		return json.toString();
 	}

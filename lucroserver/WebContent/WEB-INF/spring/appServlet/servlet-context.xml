@@ -16,24 +16,34 @@
 	<!-- Security -->
 	<interceptors>
 		<interceptor>
+			<!-- Request authentication -->
 			<mapping path="/app/**"/>
+			
+			<!-- Not request authentication -->
+			<exclude-mapping path="/app/user/create"/>
+			
+			<!-- Authenticator -->
 			<beans:bean class="br.com.lucro.server.service.security.AuthInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
-	<!-- Cross origin configurations -->
+	<!-- Cross origin security configurations -->
 	<cors>
 		<mapping path="/app/**"
-			allow-credentials="false"
+			allow-credentials="true"
 			allowed-origins="*"
-			allowed-methods="GET, POST, PUT, DELETE"
-			max-age="60"
-			/>
+			allowed-methods="GET,POST,PUT,OPTIONS,DELETE"
+			allowed-headers="Authorization,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers"			
+			exposed-headers="Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Access-Control-Allow-Headers"
+			max-age="1"
+			/>		
 		<mapping path="/auth/login"
-			allow-credentials="false"
+			allow-credentials="true"
 			allowed-origins="*"
 			allowed-methods="POST"
-			max-age="60"
+			allowed-headers="Authorization,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers"			
+			exposed-headers="Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Access-Control-Allow-Headers"
+			max-age="1"
 			/>
 	</cors>
 	

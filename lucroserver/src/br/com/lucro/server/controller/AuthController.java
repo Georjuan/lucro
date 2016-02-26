@@ -4,7 +4,6 @@
 package br.com.lucro.server.controller;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 import br.com.lucro.server.controller.dto.AuthenticationDTO;
 import br.com.lucro.server.model.Authentication;
 import br.com.lucro.server.model.Authentication.EnumAccessType;
+import br.com.lucro.server.model.User;
 import br.com.lucro.server.model.WebResponse;
 import br.com.lucro.server.model.WebResponseException;
 import br.com.lucro.server.service.AuthenticationService;
+import br.com.lucro.server.service.UserService;
 import br.com.lucro.server.util.Utils;
 import br.com.lucro.server.util.enums.EnumWebResponse;
 
@@ -47,13 +47,6 @@ public class AuthController {
 		
 		private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 		
-		@RequestMapping(value = "/", method = RequestMethod.GET)
-		public ModelAndView home(Locale locale, ModelAndView model) {
-			logger.info("Welcome Lucro Server! The client IP is {} and locale is {}.", request.getRemoteAddr(), locale);
-			model.setViewName("home");		
-			return model;
-		}
-		
 		@ResponseBody
 		@RequestMapping(value = "/login", method = RequestMethod.POST)
 		public WebResponse getAverageTicket(@RequestBody AuthenticationDTO authParameters) throws WebResponseException, Exception {
@@ -70,6 +63,9 @@ public class AuthController {
 			//Get bean service
 			AuthenticationService authenticationService = ctx.getBean(AuthenticationService.class);
 			
+			//Get bean service
+			UserService userService = ctx.getBean(UserService.class);
+			
 			Authentication auth = new Authentication(authParameters.getUsername(), 
 														authParameters.getPassword(), EnumAccessType.LOGIN);
 			
@@ -80,12 +76,17 @@ public class AuthController {
 				throw new WebResponseException("Usuário ou senha inválidos", EnumWebResponse.AUTHENTICATION_ERROR);				
 			}
 			
+			//Get user data
+			User user = userService.getUser(new User(authentication.getUsername()));
+			user.getCompany().setUser(null);
+			
 			//Create successful response
 			web.setMessage(EnumWebResponse.OK.name());
 			web.setStatus(EnumWebResponse.OK);
 			//Create map response
 			Map<String, Object> mapResponse = new HashMap<String, Object>();
 			mapResponse.put("authentication", authentication);
+			mapResponse.put("user", user);
 			//Set map response
 			web.setResponse(mapResponse);
 			

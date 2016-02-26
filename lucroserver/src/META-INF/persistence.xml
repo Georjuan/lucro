@@ -10,7 +10,11 @@
 		<mapping-file>META-INF/sql/SoldValueByFlagSQL.xml</mapping-file>
 		
 		<class>br.com.lucro.server.model.CardFlag</class>
+		<class>br.com.lucro.server.model.User</class>
+		<class>br.com.lucro.server.model.Company</class>
 		<class>br.com.lucro.server.model.Authentication</class>
+		<class>br.com.lucro.server.model.CompanyAcquirer</class>
+		<class>br.com.lucro.server.model.CompanyAcquirerPK</class>
 		
 		<properties>
 			<!--
@@ -18,7 +22,7 @@
 			<property name="hibernate.connection.username" value="lucro"/>
 			<property name="hibernate.connection.password" value="root"/>
 			-->
-			<property name="hibernate.connection.url" value="jdbc:postgresql://lukredb.c7ir54bchoqo.us-west-2.rds.amazonaws.com:5432/lukre_db?ApplicationName=LucroServer"/>
+			<property name="hibernate.connection.url" value="jdbc:postgresql://lukredb.c7ir54bchoqo.us-west-2.rds.amazonaws.com:5432/lukre_db?ApplicationName=LukreServer"/>
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
 			<property name="hibernate.connection.password" value="lukre.me89#5"/>
 			<property name="hibernate.connection.username" value="lukrerds"/>			

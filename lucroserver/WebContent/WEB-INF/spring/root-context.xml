@@ -5,8 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-	
-	<tx:annotation-driven proxy-target-class="true"/>
 
 	<!-- Components scan -->
 	
@@ -14,7 +12,20 @@
 	<context:component-scan base-package="br.com.lucro.server.service"/>	
 	<context:component-scan base-package="br.com.lucro.server.dao"/>	
 	
-	<!-- END -->
+	<!-- JPA -->
+	<!-- 
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="lukreserver"/>
+	</bean>
+	-->
+	
+	<!-- Enable transaction -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />  -->
+	<!-- Transaction Manager -->
+	<!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    	<property name="entityManagerFactory" ref="entityManagerFactory" />
+    	<property name="nestedTransactionAllowed" value="true"/>
+	</bean> -->
 	
 	<context:property-placeholder location="classpath:server.properties"/>
 	

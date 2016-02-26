@@ -5,7 +5,6 @@ package br.com.lucro.server.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.ModelAndView;
 
 import br.com.lucro.server.model.CardFlag;
 import br.com.lucro.server.model.WebResponse;
@@ -45,19 +43,12 @@ public class CardController {
 		
 		private static final Logger logger = LoggerFactory.getLogger(CardController.class);
 		
-		@RequestMapping(value = "/", method = RequestMethod.GET)
-		public ModelAndView home(Locale locale, ModelAndView model) {
-			logger.info("Welcome Lucro Server! The client IP is {} and locale is {}.", request.getRemoteAddr(), locale);
-			model.setViewName("home");		
-			return model;
-		}
-		
 		@ResponseBody
 		@RequestMapping(value = "/flags", method = RequestMethod.GET)
 		public WebResponse getAverageTicket() throws WebResponseException, Exception {
 			
 			logger.info(String.format("Request for '%s' - From: %s:%d - Parameters: %s", request.getServletPath(),
-					request.getRemoteAddr(), request.getRemotePort(), Utils.getMapParam(request)));
+					request.getRemoteAddr(), request.getRemotePort(), Utils.getMapParam(request.getParameterMap())));
 			
 			//Get application context
 			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());

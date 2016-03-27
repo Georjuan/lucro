@@ -38,7 +38,7 @@ public class Company implements Serializable {
 	@Transient
 	private String hash;
 	
-	@JoinColumn(name="user_id", insertable=true)
+	@JoinColumn(name="user_id", insertable=true, updatable=false)
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private User user;
 	

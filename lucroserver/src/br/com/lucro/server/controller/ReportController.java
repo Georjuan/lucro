@@ -22,6 +22,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import br.com.lucro.server.model.AverageTicket;
 import br.com.lucro.server.model.AverageTicket.ENUM_AVERAGE_PERIOD;
 import br.com.lucro.server.model.Company;
+import br.com.lucro.server.model.SalesConciliation;
 import br.com.lucro.server.model.SoldValueByFlag;
 import br.com.lucro.server.model.SoldValueByPaymentMethod;
 import br.com.lucro.server.model.WebResponse;
@@ -42,6 +43,55 @@ public class ReportController {
 	private HttpServletRequest request;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
+	
+	@ResponseBody
+	@RequestMapping(value = "/sales_conciliation", method = RequestMethod.GET)
+	public WebResponse getSalesConciliation(@RequestParam("company_id") Integer companyId,
+		                                       @RequestParam("start_date") String startDate,
+		                                       @RequestParam("end_date") String endDate) throws WebResponseException, Exception {
+		
+		logger.info(String.format("Request for '%s' - From: %s:%d - Parameters: %s", request.getServletPath(),
+				request.getRemoteAddr(), request.getRemotePort(), Utils.getMapParam(request.getParameterMap())));
+		
+		//Get application context
+		WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());
+
+		//Format parameters
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//Format date parameters
+		if(companyId==null) 
+			throw new WebResponseException("Parametro invalido: company_id", EnumWebResponse.INVALID_PARAM);
+		
+		Date periodStart = DateTimeUtils.parseDateURL(startDate, "start_date");
+		
+		Date periodEnd = DateTimeUtils.parseDateURL(endDate, "end_date");
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//Create web response object
+		WebResponse web = new WebResponse();
+		
+		//Get bean service
+		ReportService reportService = ctx.getBean(ReportService.class);
+		
+		//Search data
+		List<SalesConciliation> report = reportService.getSalesConciliation(
+					new Company(companyId),
+					periodStart,
+					periodEnd
+				);
+		
+		//Create successful response
+		web.setMessage(EnumWebResponse.OK.name());
+		web.setStatus(EnumWebResponse.OK);
+		//Create map response
+		Map<String, Object> mapResponse = new HashMap<String, Object>();
+		mapResponse.put("report", report);
+		//Set map response
+		web.setResponse(mapResponse);
+		
+		return web;
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/sold_value_by_flag", method = RequestMethod.GET)

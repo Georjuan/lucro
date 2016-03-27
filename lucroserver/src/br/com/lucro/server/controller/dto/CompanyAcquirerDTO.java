@@ -14,7 +14,7 @@ import br.com.lucro.server.model.CompanyAcquirerPK;
  * @author taylor
  *
  */
-public class AcquirerDTO {
+public class CompanyAcquirerDTO {
 
 	@JsonProperty
 	private String acquirer;
@@ -30,11 +30,14 @@ public class AcquirerDTO {
 	
 	@JsonProperty(required=false)
 	private String postalcode;
+	
+	@JsonProperty(value="establishment_number", required=false)
+	private String establishmentNumber;
 
 	@JsonProperty
 	private String cnpj;
 	
-	public AcquirerDTO() {
+	public CompanyAcquirerDTO() {
 	
 	}
 	
@@ -50,6 +53,7 @@ public class AcquirerDTO {
 		companyAcquirer.setPostalcode(this.postalcode);
 		companyAcquirer.setUsername(this.username);
 		companyAcquirer.setCompany(new Company(this.cnpj));
+		companyAcquirer.setEstablishmentNumber(this.establishmentNumber);
 		
 		return companyAcquirer;
 	}
@@ -74,6 +78,48 @@ public class AcquirerDTO {
 	 */
 	public void setAcquirer(String acquirer) {
 		this.acquirer = acquirer;
+	}
+	
+	/**
+	 * @return the postalcode
+	 */
+	public String getPostalcode() {
+		return postalcode;
+	}
+
+	/**
+	 * @param postalcode the postalcode to set
+	 */
+	public void setPostalcode(String postalcode) {
+		this.postalcode = postalcode;
+	}
+
+	/**
+	 * @return the establishmentNumber
+	 */
+	public String getEstablishmentNumber() {
+		return establishmentNumber;
+	}
+
+	/**
+	 * @param establishmentNumber the establishmentNumber to set
+	 */
+	public void setEstablishmentNumber(String establishmentNumber) {
+		this.establishmentNumber = establishmentNumber;
+	}
+
+	/**
+	 * @return the cnpj
+	 */
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	/**
+	 * @param cnpj the cnpj to set
+	 */
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	/**

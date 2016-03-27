@@ -3,6 +3,9 @@
  */
 package br.com.lucro.server.dao;
 
+import java.util.List;
+
+import br.com.lucro.server.model.Company;
 import br.com.lucro.server.model.CompanyAcquirer;
 
 /**
@@ -11,4 +14,6 @@ import br.com.lucro.server.model.CompanyAcquirer;
  */
 public interface CompanyAcquirerDAO extends CRUD<CompanyAcquirer> {
 
+	List<CompanyAcquirer> selectByCompany(Company company) throws Exception;
+	
 }

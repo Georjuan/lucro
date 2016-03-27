@@ -29,18 +29,25 @@ public class Authentication {
 	/** User name */
 	@Id
 	private String username;
+	
 	/** Session hash */
-	@Column
+	@Column(updatable=false,insertable=false)
 	private String session;
+	
 	/** User Type */
 	@JsonProperty("user_type")
-	@Column(name="access")	
+	@Column(name="access",updatable=false,insertable=false)	
 	private String userType;
 	
 	/** Password */
 	@Transient
 	@JsonIgnore
 	private String password;
+	
+	/** IP */
+	@Transient
+	@JsonIgnore
+	private String ip;
 	
 	/** Access Type */
 	@Transient
@@ -49,13 +56,28 @@ public class Authentication {
 		
 	public Authentication(){}
 	
-	public Authentication(String user, String password, EnumAccessType access) {
+	public Authentication(String user, String password, String ip, EnumAccessType access) {
 		this.username = user;
 		this.password = password;
 		this.access = access;
 		this.session = "";
+		this.ip = ip;
 	}
 	
+	/**
+	 * @return the ip
+	 */
+	public String getIp() {
+		return ip;
+	}
+
+	/**
+	 * @param ip the ip to set
+	 */
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	/**
 	 * @return the username
 	 */

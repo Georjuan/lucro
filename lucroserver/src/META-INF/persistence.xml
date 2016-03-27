@@ -8,6 +8,7 @@
 		<mapping-file>META-INF/sql/SoldValueByPaymentMethodSQL.xml</mapping-file>
 		<mapping-file>META-INF/sql/AverageTicketSQL.xml</mapping-file>
 		<mapping-file>META-INF/sql/SoldValueByFlagSQL.xml</mapping-file>
+		<mapping-file>META-INF/sql/SalesConciliationSQL.xml</mapping-file>
 		
 		<class>br.com.lucro.server.model.CardFlag</class>
 		<class>br.com.lucro.server.model.User</class>

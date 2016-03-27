@@ -3,6 +3,7 @@ package br.com.lucro.server.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -16,6 +17,7 @@ import br.com.lucro.server.dao.ReportDAO;
 import br.com.lucro.server.model.AverageTicket;
 import br.com.lucro.server.model.CardFlag;
 import br.com.lucro.server.model.Company;
+import br.com.lucro.server.model.SalesConciliation;
 import br.com.lucro.server.model.SoldValueByFlag;
 import br.com.lucro.server.model.SoldValueByPaymentMethod;
 
@@ -32,6 +34,32 @@ public class ReportDAOImpl implements ReportDAO {
 	private CardFlagDAO cardFlagDAO;
 	
 	public ReportDAOImpl() {}
+
+	/* (non-Javadoc)
+	 * @see br.com.lucro.server.dao.ReportDAO#getSalesConciliation(br.com.lucro.server.model.Company, java.util.Date, java.util.Date)
+	 */
+	@Override
+	public List<SalesConciliation> selectSalesConciliation(Company company, Date startDate, Date endDate) throws Exception {
+		EntityManager entityManager = dao.getEntityManager();
+		
+		List<SalesConciliation> report = new ArrayList<>();
+		
+		//Get query
+		Query query = entityManager.createNamedQuery("SalesConciliationSQL", SalesConciliation.class);
+		
+		//Append parameters
+		query.setParameter("start_date", startDate);
+		query.setParameter("end_date", endDate);
+		query.setParameter("company_id", company.getId());
+		
+		//Run query
+		List<?> values = query.getResultList();
+		
+		//Get results		
+		report = values.stream().map(sale -> (SalesConciliation)sale).collect(Collectors.toList());
+		
+		return report;
+	}
 
 	/* (non-Javadoc)
 	 * @see br.com.lucro.server.dao.ReportDAO#selectSoldValueByFlag(br.com.lucro.server.model.Company, java.util.Date, java.util.Date)

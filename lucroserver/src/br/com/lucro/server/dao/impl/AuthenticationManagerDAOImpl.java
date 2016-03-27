@@ -38,10 +38,11 @@ public class AuthenticationManagerDAOImpl implements AuthenticationManagerDAO {
 		
 		//Get query
 		Query query = entityManager.createNativeQuery("SELECT username\\:\\:TEXT, session\\:\\:TEXT, access\\:\\:TEXT "
-														+ "FROM security_user_login(:username, :password);", Authentication.class);
+														+ "FROM security_user_login(:username, :password, :ip);", Authentication.class);
 		
 		query.setParameter("username", auth.getUsername());
 		query.setParameter("password", auth.getPassword());
+		query.setParameter("ip", auth.getIp());
 		
 		Authentication authentication = null;
 		try{			
@@ -73,12 +74,14 @@ public class AuthenticationManagerDAOImpl implements AuthenticationManagerDAO {
 		
 		//Get query
 		Query query = entityManager.createNativeQuery("SELECT 1\\:\\:INTEGER FROM \"user\" "
-														+ "WHERE username = :username \\:\\:CHARACTER VARYING "
-														+ "AND hash = :session \\:\\:CHARACTER VARYING");
+														+ " WHERE username = :username \\:\\:CHARACTER VARYING "
+														+ " AND hash = :session \\:\\:CHARACTER VARYING "
+														+ " AND ip = :ip \\:\\:CHARACTER VARYING");
 		
 		//Set parameters
 		query.setParameter("username", auth.getUsername());
 		query.setParameter("session", auth.getPassword());
+		query.setParameter("ip", auth.getIp());
 		
 		//Run query
 		try{			

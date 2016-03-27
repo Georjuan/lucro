@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.lucro.server.model.AverageTicket;
 import br.com.lucro.server.model.Company;
+import br.com.lucro.server.model.SalesConciliation;
 import br.com.lucro.server.model.SoldValueByFlag;
 import br.com.lucro.server.model.SoldValueByPaymentMethod;
 
@@ -14,6 +15,16 @@ import br.com.lucro.server.model.SoldValueByPaymentMethod;
  *
  */
 public interface ReportDAO {
+	
+	/**
+	 * Select the conciliation report between sales and payments
+	 * @param company
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws Exception
+	 */
+	List<SalesConciliation> selectSalesConciliation(Company company, Date startDate, Date endDate) throws Exception;
 	
 	/**
 	 * Select how much value was sold by each card flag

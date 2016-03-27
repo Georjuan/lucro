@@ -4,12 +4,17 @@
 package br.com.lucro.server.dao.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.lucro.server.dao.CompanyAcquirerDAO;
+import br.com.lucro.server.model.Company;
 import br.com.lucro.server.model.CompanyAcquirer;
 
 /**
@@ -19,11 +24,28 @@ import br.com.lucro.server.model.CompanyAcquirer;
 @Repository
 public class CompanyAcquirerDAOImpl implements CompanyAcquirerDAO {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(CompanyAcquirerDAOImpl.class);
 	
 	@Autowired
 	private DAOManager dao;
+
+	/* (non-Javadoc)
+	 * @see br.com.lucro.server.dao.CompanyAcquirerDAO#selectByCompany(br.com.lucro.server.model.Company)
+	 */
+	@Override
+	public List<CompanyAcquirer> selectByCompany(Company company) throws Exception {		
+		EntityManager entityManager = dao.getEntityManager();
+		
+		Query query = entityManager.createNativeQuery("SELECT * FROM rel_company_acquirer WHERE company_id = :company", CompanyAcquirer.class);
+		
+		query.setParameter("company", company.getId());
+		
+		List<?> result = query.getResultList();
+		
+		List<CompanyAcquirer> acquirers = result.stream().map(item -> (CompanyAcquirer)item).collect(Collectors.toList()); 
+		
+		return acquirers;
+	}
 
 	/* (non-Javadoc)
 	 * @see br.com.lucro.server.dao.CRUD#create(java.lang.Object)
@@ -50,9 +72,13 @@ public class CompanyAcquirerDAOImpl implements CompanyAcquirerDAO {
 	 */
 	@Override
 	public CompanyAcquirer update(CompanyAcquirer acquirer) throws Exception {
-		dao.beginTransaction();		
-		CompanyAcquirer mergedAcquirer = dao.getEntityManager().merge(acquirer);		
-		dao.commitTransaction();		
+logger.info("Z");
+		dao.beginTransaction();
+logger.info("X");
+		CompanyAcquirer mergedAcquirer = dao.getEntityManager().merge(acquirer);
+logger.info("Y");
+		dao.commitTransaction();
+logger.info("P");
 		return mergedAcquirer;
 	}
 

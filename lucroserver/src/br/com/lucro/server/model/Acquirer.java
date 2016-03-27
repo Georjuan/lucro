@@ -18,6 +18,7 @@ import javax.persistence.Table;
 public class Acquirer {
 
 	public static final int CIELO = 1;
+	public static final int REDE_CARD = 2;
 	
 	@Id
 	@SequenceGenerator(name="ACQUIRER_ID_GENERATOR", sequenceName="ACQUIRER_ID_SEQ", allocationSize=1)
@@ -30,6 +31,14 @@ public class Acquirer {
 	public Acquirer() {}
 	public Acquirer(Integer id) {this.id = id;}
 
+	public static String getAcquirer(int id){
+		switch(id){
+			case CIELO: return "CIELO";
+			case REDE_CARD: return "REDE CARD";
+			default: return "";
+		}
+	}
+	
 	/**
 	 * @return the id
 	 */

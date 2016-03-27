@@ -1,7 +1,12 @@
 package br.com.lucro.server.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -27,9 +32,29 @@ public class CompanyAcquirer implements Serializable {
 	
 	@Transient
 	private Company company;
+	
+	@Transient
+	private String acquirer;
+	
+	@Column(name="establishment_number")
+	private String establishmentNumber;
 
 	public CompanyAcquirer() {
 		
+	}
+
+	/**
+	 * @return the acquirer
+	 */
+	public String getAcquirer() {
+		return acquirer;
+	}
+
+	/**
+	 * @param acquirer the acquirer to set
+	 */
+	public void setAcquirer(String acquirer) {
+		this.acquirer = acquirer;
 	}
 
 	/**
@@ -39,6 +64,19 @@ public class CompanyAcquirer implements Serializable {
 		return company;
 	}
 
+	/**
+	 * @return the establishmentNumber
+	 */
+	public String getEstablishmentNumber() {
+		return establishmentNumber;
+	}
+
+	/**
+	 * @param establishmentNumber the establishmentNumber to set
+	 */
+	public void setEstablishmentNumber(String establishmentNumber) {
+		this.establishmentNumber = establishmentNumber;
+	}
 
 	/**
 	 * @param company the company to set

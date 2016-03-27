@@ -67,7 +67,7 @@ public class AuthController {
 			UserService userService = ctx.getBean(UserService.class);
 			
 			Authentication auth = new Authentication(authParameters.getUsername(), 
-														authParameters.getPassword(), EnumAccessType.LOGIN);
+														authParameters.getPassword(), request.getRemoteAddr(), EnumAccessType.LOGIN);
 			
 			//Log in user
 			Authentication authentication = authenticationService.auth(auth);
@@ -78,7 +78,8 @@ public class AuthController {
 			
 			//Get user data
 			User user = userService.getUser(new User(authentication.getUsername()));
-			user.getCompany().setUser(null);
+
+			if(user.getCompany()!=null)user.getCompany().setUser(null);
 			
 			//Create successful response
 			web.setMessage(EnumWebResponse.OK.name());

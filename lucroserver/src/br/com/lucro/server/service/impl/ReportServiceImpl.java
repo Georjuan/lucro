@@ -14,6 +14,7 @@ import br.com.lucro.server.dao.ReportDAO;
 import br.com.lucro.server.model.AverageTicket;
 import br.com.lucro.server.model.AverageTicket.ENUM_AVERAGE_PERIOD;
 import br.com.lucro.server.model.Company;
+import br.com.lucro.server.model.SalesConciliation;
 import br.com.lucro.server.model.SoldValueByFlag;
 import br.com.lucro.server.model.SoldValueByPaymentMethod;
 import br.com.lucro.server.model.WebResponseException;
@@ -26,6 +27,16 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private ReportDAO reportDAO;
 	
+	/* (non-Javadoc)
+	 * @see br.com.lucro.server.service.ReportService#getSalesConciliation(br.com.lucro.server.model.Company, java.util.Date, java.util.Date)
+	 */
+	@Override
+	public List<SalesConciliation> getSalesConciliation(Company company, Date startDate, Date endDate) throws Exception {
+		//Get data
+		List<SalesConciliation> report = reportDAO.selectSalesConciliation(company, startDate, endDate);		
+		return report;
+	}
+
 	/* (non-Javadoc)
 	 * @see br.com.lucro.server.service.ReportService#getSoldValueByFlag(br.com.lucro.server.model.Company, java.util.Date, java.util.Date)
 	 */

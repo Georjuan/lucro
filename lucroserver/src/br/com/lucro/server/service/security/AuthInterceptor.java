@@ -66,14 +66,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 				//Read session header
 				auth = auth.replace("Basic ", "");
 				auth = new String(Base64.getDecoder().decode(auth));
-				
+				 
 				//Get parameters
 				String username = auth.split(":")[0];
 				String session = auth.split(":")[1];
-				
-				//TODO: Receber senha em formato MD5
+				String ip = request.getRemoteAddr();
+						
+				//FIXME: Receber senha já criptografada
 				//Create authentication object
-				Authentication authentication = new Authentication(username, session, EnumAccessType.SESSION);					
+				Authentication authentication = new Authentication(username, session, ip, EnumAccessType.SESSION);					
 				
 				//Authentication
 				if((authentication = authManager.auth(authentication)) == null){
